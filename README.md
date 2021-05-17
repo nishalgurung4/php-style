@@ -304,6 +304,6 @@ jobs:
 
 ```
 
-`Note: Above workflow also fix the changes if needed and it will auto commit the changes`
+`Note: Above workflow also fix the changes  and auto commit it if needed`
 
 
