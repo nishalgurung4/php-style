@@ -3,7 +3,7 @@
   "description": "Nishal's shared PHP style rules for PHP-CS-Fixer",
   "license": "MIT",
   "require": {
-    "friendsofphp/php-cs-fixer": "^2.0"
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "autoload": {
     "files": [
