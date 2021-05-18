@@ -194,6 +194,83 @@ jobs:
           --github-location repository=nishalgurung4/laravel,commitId=${{github.sha}}
 ```
 
+also create `scripts/deploy.sh`
+
+```
+#!/bin/bash
+
+if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
+
+    mkdir -p /var/www/laravel
+
+	cp -a /tmp/laravel/. /var/www/laravel/
+
+	cp /var/www/laravel/.env.production /var/www/laravel/.env
+
+	composer install -d /var/www/laravel --optimize-autoloader --no-dev
+
+    chown $USER:$USER /var/www/laravel
+
+	chmod 777 -R /var/www/laravel/storage /var/www/laravel/bootstrap/cache
+
+    php /var/www/laravel/artisan key:generate
+
+	php /var/www/laravel/artisan migrate --force
+
+	php /var/www/laravel/artisan config:clear
+
+	php /var/www/laravel/artisan cache:clear
+
+	php /var/www/laravel/artisan view:clear
+
+	php /var/www/laravel/artisan route:clear
+
+	php /var/www/laravel/artisan config:cache
+
+	php /var/www/laravel/artisan route:cache
+
+	php /var/www/laravel/artisan view:cache
+
+fi
+
+if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group-staging" ]; then
+
+    mkdir /var/www/laravel_dev
+
+	cp -a /tmp/laravel/. /var/www/laravel_dev/
+
+	cp /var/www/laravel_dev/.env.staging /var/www/laravel_dev/.env
+
+	composer install -d /var/www/laravel_dev
+
+    chown $USER:$USER /var/www/laravel
+
+	chmod 777 -R /var/www/laravel_dev/storage /var/www/laravel_dev/bootstrap/cache
+
+    php /var/www/laravel_dev/artisan key:generate
+
+	php /var/www/laravel_dev/artisan migrate
+
+	php /var/www/laravel_dev/artisan config:clear
+
+	php /var/www/laravel_dev/artisan cache:clear
+
+	php /var/www/laravel_dev/artisan view:clear
+
+	php /var/www/laravel_dev/artisan route:clear
+
+	php /var/www/laravel_dev/artisan config:cache
+
+	php /var/www/laravel_dev/artisan route:cache
+
+	php /var/www/laravel_dev/artisan view:cache
+fi
+
+rm -r /tmp/laravel
+
+
+```
+
 You can create another workflow `.github/workflows/format_php.yml` for the PHP CS fixer rules for CI.
 
 ```yml
