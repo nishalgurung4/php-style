@@ -196,7 +196,7 @@ jobs:
 
 also create `scripts/deploy.sh`
 
-```
+```sh
 #!/bin/bash
 
 if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
