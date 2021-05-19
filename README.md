@@ -223,19 +223,23 @@ also create `scripts/deploy.sh`
 
 if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
 
-    mkdir -p /var/www/laravel
+    	mkdir -p /var/www/laravel
 
 	cp -a /tmp/laravel/. /var/www/laravel/
 
 	cp /var/www/laravel/.env.production /var/www/laravel/.env
 
 	composer install -d /var/www/laravel --optimize-autoloader --no-dev
+	
+	chmod -R 755 /var/www/laravel
 
-    chown $USER:$USER /var/www/laravel
+    	chown -R www-data:www-data /var/www/laravel
 
-	chmod 777 -R /var/www/laravel/storage /var/www/laravel/bootstrap/cache
+	chmod 775 -R /var/www/laravel/storage /var/www/laravel/bootstrap/cache
 
-    php /var/www/laravel/artisan key:generate
+   	php /var/www/laravel/artisan key:generate
+	 
+	php /var/www/laravel/artisan storage:link
 
 	php /var/www/laravel/artisan migrate --force
 
@@ -246,12 +250,17 @@ if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
 	php /var/www/laravel/artisan view:clear
 
 	php /var/www/laravel/artisan route:clear
+	
+	#to fix issue
+	php var/www/test/artisan key:generate 
 
 	php /var/www/laravel/artisan config:cache
 
 	php /var/www/laravel/artisan route:cache
 
 	php /var/www/laravel/artisan view:cache
+	
+	# php /var/www/test/artisan optimize
 
 fi
 
