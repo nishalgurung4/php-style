@@ -243,24 +243,7 @@ if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
 
 	php /var/www/laravel/artisan migrate --force
 
-	php /var/www/laravel/artisan config:clear
-
-	php /var/www/laravel/artisan cache:clear
-
-	php /var/www/laravel/artisan view:clear
-
-	php /var/www/laravel/artisan route:clear
-	
-	#to fix issue
-	php var/www/test/artisan key:generate 
-
-	php /var/www/laravel/artisan config:cache
-
-	php /var/www/laravel/artisan route:cache
-
-	php /var/www/laravel/artisan view:cache
-	
-	# php /var/www/test/artisan optimize
+	php /var/www/test/artisan optimize
 
 fi
 
