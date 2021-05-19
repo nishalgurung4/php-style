@@ -236,8 +236,6 @@ if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group" ]; then
     	chown -R www-data:www-data /var/www/laravel
 
 	chmod 775 -R /var/www/laravel/storage /var/www/laravel/bootstrap/cache
-
-   	php /var/www/laravel/artisan key:generate
 	 
 	php /var/www/laravel/artisan storage:link
 
