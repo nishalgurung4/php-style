@@ -259,8 +259,6 @@ if [ "$DEPLOYMENT_GROUP_NAME" == "laravel-app-code-deploy-group-staging" ]; then
 
 	chmod 777 -R /var/www/laravel_dev/storage /var/www/laravel_dev/bootstrap/cache
 
-    php /var/www/laravel_dev/artisan key:generate
-
 	php /var/www/laravel_dev/artisan migrate
 
 	php /var/www/laravel_dev/artisan config:clear
