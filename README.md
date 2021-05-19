@@ -79,6 +79,9 @@ echo ".php-css-fixer.cache" >> .gitignore
 Now if you want to integrate CI/CD using github, you need to create workflows inside `.github/workflows` folder or simply you can create it from the github dashboard.
 Here is an example that I have configured with the AWS codedeploy.
 
+Add secrets in your repo which is created in the code deploy AWS. (`AWS_ACCESS_KEY` and `AWS_SECRET_ACCESS_KEY`)
+
+
 Create `.github/workflows/deploy.yml` file and add following content.
 
 ```yml
@@ -192,6 +195,25 @@ jobs:
           --deployment-group-name laravel-app-code-deploy-group-staging \
           --description "Deploy from Github" \
           --github-location repository=nishalgurung4/laravel,commitId=${{github.sha}}
+```
+
+Add `appspec.yml` in the root directory
+
+```yml
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /tmp/laravel
+file_exists_behavior: OVERWRITE
+hooks:
+  
+  AfterInstall:
+    - location: scripts/deploy.sh
+      timeout: 300
+      runas: root
+
 ```
 
 also create `scripts/deploy.sh`
